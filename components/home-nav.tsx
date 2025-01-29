@@ -25,8 +25,6 @@ export function HomeNav() {
     enabled: !!supabase.auth.getUser(),
   });
 
-  console.log(user);
-
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {

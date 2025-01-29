@@ -1,4 +1,4 @@
-import { pgTable, text, uuid, json } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, json, timestamp } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
   id: text("id").notNull().primaryKey().unique(),
@@ -13,7 +13,9 @@ export const threadsTable = pgTable("threads", {
     .notNull()
     .references(() => usersTable.id),
   location: text("location"),
-  dates: text("dates"),
+  dates: json("dates"),
   guests: text("guests"),
+  type: text("type"),
+  createdAt: timestamp("created_at").defaultNow(),
   content: json("content").array(),
 });

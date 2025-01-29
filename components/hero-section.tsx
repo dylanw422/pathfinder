@@ -1,23 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
-import { Search, MapPin, Users, ChevronDown } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import {
+  Search,
+  MapPin,
+  Users,
+  ChevronDown,
+  Briefcase,
+  Umbrella,
+  Users2,
+} from "lucide-react";
 import { Calendar } from "./ui/calendar";
-import { DateRange } from "react-day-picker";
+import type { DateRange } from "react-day-picker";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { insertThread, getThreads, getUser } from "@/queries/queries";
 
-type ModalType = "Dates" | "Location" | "Guests" | null;
+type ModalType = "Dates" | "Location" | "Guests" | "TripType" | null;
+type TripType = "business" | "vacation" | "family";
 
-export function HomeBooking() {
+export function HeroSection() {
   const [openModal, setOpenModal] = useState<ModalType>(null);
-  const trip = JSON.parse(localStorage.getItem("trip") || "{}");
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: trip?.dates?.from || undefined,
-    to: trip?.dates?.to || undefined,
+  const [date, setDate] = useState<DateRange>({
+    from: undefined,
+    to: undefined,
   });
-  const [guests, setGuests] = useState<number>(trip?.guests || 1);
-  const [location, setLocation] = useState<string | undefined>(trip?.location);
+  const [location, setLocation] = useState<string>("");
+  const [guests, setGuests] = useState<number>(1);
+  const [tripType, setTripType] = useState<TripType>("vacation");
   const router = useRouter();
 
   const formattedDate =
@@ -25,19 +37,52 @@ export function HomeBooking() {
       ? `${format(date.from, "MMM d")} - ${format(date.to, "MMM d")}`
       : "Dates";
 
-  const startBooking = async () => {
-    if (date && guests && location) {
-      localStorage.setItem(
-        "trip",
-        JSON.stringify({ dates: date, location, guests }),
-      );
+  const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUser });
+  const { data: threads } = useQuery({
+    queryKey: ["threads"],
+    queryFn: () => getThreads(user?.id),
+    enabled: !!user?.id,
+  });
 
-      router.push("/travel");
+  const newThread = useMutation({
+    mutationFn: () =>
+      insertThread({
+        userId: user ? user.id : "",
+        dates: date,
+        location: location ? location : "",
+        guests: guests.toString(),
+        type: tripType,
+        content: [],
+      }),
+    onSuccess: (data) => {
+      const id = data.thread[0]?.id;
+      router.push(`/chat/${id}`);
+    },
+  });
+
+  const startBooking = async () => {
+    if (date && guests && location && tripType && user) {
+      newThread.mutate();
+    } else if (!user) {
+      router.push("/login");
+    } else if ((!date || !guests || !location || !tripType) && user) {
+      router.push(`/chat/${threads[0].id}`);
     }
   };
 
   const handleModalToggle = (modal: ModalType) => {
     setOpenModal((prevModal) => (prevModal === modal ? null : modal));
+  };
+
+  const getTripTypeIcon = (type: TripType) => {
+    switch (type) {
+      case "business":
+        return <Briefcase className="w-4 h-4" />;
+      case "vacation":
+        return <Umbrella className="w-4 h-4" />;
+      case "family":
+        return <Users2 className="w-4 h-4" />;
+    }
   };
 
   return (
@@ -49,7 +94,7 @@ export function HomeBooking() {
         Your Next Adventure, Effortlessly Planned
       </h1>
 
-      <div id="options" className="mt-8 w-full max-w-4xl mx-auto z-50">
+      <div id="options" className="mt-8 w-full max-w-5xl mx-auto z-50">
         <div className="flex items-center bg-white/10 backdrop-blur-md rounded-full p-2 text-sm text-white/90 shadow-lg border-t border-white/20">
           {/* Date Selector */}
           <OptionButton
@@ -62,9 +107,13 @@ export function HomeBooking() {
               <Calendar
                 initialFocus
                 mode="range"
-                defaultMonth={date?.from}
+                defaultMonth={new Date()}
                 selected={date}
-                onSelect={setDate}
+                onSelect={(range) => {
+                  if (range) {
+                    setDate(range);
+                  }
+                }}
                 numberOfMonths={2}
                 className="bg-primary-foreground text-primary rounded-lg absolute top-16 shadow-lg text-xs -translate-x-1/4"
               />
@@ -102,8 +151,20 @@ export function HomeBooking() {
             isOpen={openModal === "Guests"}
             onClick={() => handleModalToggle("Guests")}
             displayValue={`Guests: ${guests}`}
-            isLast
             content={<GuestsSelector guests={guests} setGuests={setGuests} />}
+          />
+
+          {/* Trip Type Selector */}
+          <OptionButton
+            icon={getTripTypeIcon(tripType)}
+            label="Trip Type"
+            isOpen={openModal === "TripType"}
+            onClick={() => handleModalToggle("TripType")}
+            displayValue={tripType.charAt(0).toUpperCase() + tripType.slice(1)}
+            content={
+              <TripTypeSelector tripType={tripType} setTripType={setTripType} />
+            }
+            isLast
           />
 
           {/* Start Booking Button */}
@@ -136,7 +197,7 @@ function OptionButton({
   isLast?: boolean;
 }) {
   return (
-    <div className="flex w-1/4 relative">
+    <div className="flex w-1/5 relative">
       <button
         onClick={onClick}
         className={`flex-1 group px-6 py-3 flex items-center justify-center ${
@@ -182,6 +243,54 @@ function GuestsSelector({
             +
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function TripTypeSelector({
+  tripType,
+  setTripType,
+}: {
+  tripType: TripType;
+  setTripType: React.Dispatch<React.SetStateAction<TripType>>;
+}) {
+  return (
+    <div className="bg-white text-black rounded-lg absolute top-16 shadow-lg p-4 w-full">
+      <div className="flex flex-col space-y-2">
+        <button
+          onClick={() => setTripType("business")}
+          className={`flex items-center space-x-2 px-3 py-2 rounded-md ${
+            tripType === "business"
+              ? "bg-blue-100 text-blue-600"
+              : "hover:bg-gray-100"
+          }`}
+        >
+          <Briefcase className="w-4 h-4" />
+          <span>Business</span>
+        </button>
+        <button
+          onClick={() => setTripType("vacation")}
+          className={`flex items-center space-x-2 px-3 py-2 rounded-md ${
+            tripType === "vacation"
+              ? "bg-blue-100 text-blue-600"
+              : "hover:bg-gray-100"
+          }`}
+        >
+          <Umbrella className="w-4 h-4" />
+          <span>Vacation</span>
+        </button>
+        <button
+          onClick={() => setTripType("family")}
+          className={`flex items-center space-x-2 px-3 py-2 rounded-md ${
+            tripType === "family"
+              ? "bg-blue-100 text-blue-600"
+              : "hover:bg-gray-100"
+          }`}
+        >
+          <Users2 className="w-4 h-4" />
+          <span>Family</span>
+        </button>
       </div>
     </div>
   );

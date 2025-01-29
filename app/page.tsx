@@ -1,20 +1,9 @@
-"use client";
-import { HomeBooking } from "@/components/home-booking";
+import { HeroSection } from "@/components/hero-section";
 import { HomeNav } from "@/components/home-nav";
 import { Stats } from "@/components/stats";
-import { useQuery } from "@tanstack/react-query";
-import { getThreads, getUser } from "@/queries/queries";
 import React from "react";
 
 export default function Home() {
-  const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUser });
-
-  useQuery({
-    queryKey: ["threads"],
-    queryFn: () => getThreads(user?.id),
-    enabled: !!user?.id,
-  });
-
   return (
     <div className="w-full h-screen flex flex-col text-secondary font-sans p-1">
       <div
@@ -26,7 +15,7 @@ export default function Home() {
         }}
       >
         <HomeNav />
-        <HomeBooking />
+        <HeroSection />
         <Stats />
       </div>
     </div>

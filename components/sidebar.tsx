@@ -1,15 +1,37 @@
 "use client";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
-import { ChevronsLeft, HashIcon, Home, Plane, Ticket } from "lucide-react";
+import {
+  ChevronsLeft,
+  HashIcon,
+  Home,
+  Plane,
+  Ticket,
+  Trash,
+} from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { useUserThreads } from "./user-threads-provider";
+import { Thread } from "@/db/queries";
+import React from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { Button } from "./ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { getUser, getThreads } from "@/queries/queries";
 
 export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
   const router = useRouter();
-  const { threads } = useUserThreads();
+  const pathname = usePathname();
+  const [hoveredIndex, setHoveredIndex] = React.useState<number | null>(null);
+  const [confirmDelete, setConfirmDelete] = React.useState<boolean>(false);
+
+  const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUser });
+  const { data: threads } = useQuery({
+    queryKey: ["threads"],
+    queryFn: () => getThreads(user?.id),
+    enabled: !!user?.id,
+  });
 
   return (
     <Sidebar>
@@ -38,15 +60,63 @@ export function AppSidebar() {
             </button>
             <div className="w-full flex flex-col gap-1 pl-8">
               {threads &&
-                threads.map((thread: any) => {
+                threads.slice(0, 5).map((thread: Thread, index: number) => {
                   return (
-                    <button
-                      key={thread.id}
-                      className="flex items-center gap-2 px-2 w-full text-center text-xs py-1 hover:bg-sidebar-accent transition rounded-md text-primary/70"
-                    >
-                      <HashIcon className="w-3 h-3" />
-                      {thread.location}
-                    </button>
+                    <div key={index}>
+                      <button
+                        onClick={() => {
+                          router.push(`/chat/${thread.id}`);
+                        }}
+                        className={`flex items-center justify-between gap-2 px-2 w-full text-center text-xs py-1 hover:bg-sidebar-accent transition rounded-md ${
+                          thread.id === pathname.split("/")[2]
+                            ? "text-blue-500 font-semibold"
+                            : "text-primary/70"
+                        }`}
+                        onMouseEnter={() => setHoveredIndex(index)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                      >
+                        <div className="flex items-center gap-2">
+                          <HashIcon className="w-3 h-3" />
+                          {thread.location}
+                        </div>
+
+                        {hoveredIndex === index && (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.25 }}
+                          >
+                            <Trash
+                              onClick={() => setConfirmDelete(true)}
+                              className="w-3 h-3 text-red-500"
+                            />
+                          </motion.div>
+                        )}
+                      </button>
+                      <Dialog open={confirmDelete}>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Delete Thread</DialogTitle>
+                            <DialogDescription>
+                              Are you sure you want to delete this thread?
+                            </DialogDescription>
+                          </DialogHeader>
+
+                          <div className="flex justify-between gap-2">
+                            <Button
+                              className="flex-1"
+                              variant="secondary"
+                              onClick={() => setConfirmDelete(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button className="flex-1" variant="destructive">
+                              Delete
+                            </Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
                   );
                 })}
             </div>

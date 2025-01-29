@@ -18,10 +18,10 @@ export function Login() {
         password,
       });
 
-      router.push("/");
-
       if (error) throw error;
-    } catch (error: any) {
+
+      router.push("/");
+    } catch (error: unknown) {
       console.log(error);
     } finally {
       setLoading(false);
