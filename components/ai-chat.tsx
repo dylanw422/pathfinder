@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { X, Check, ArrowRight, ExternalLink, Download } from "lucide-react";
+import React, { useEffect } from "react";
+import { X, Check, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { MarkdownContent } from "./ui/markdown-content";
 import { Avatar, AvatarFallback } from "./ui/avatar";

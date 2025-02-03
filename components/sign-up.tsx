@@ -39,7 +39,7 @@ export function Signup() {
       router.push("/");
 
       if (error) throw error;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
     } finally {
       setLoading(false);
