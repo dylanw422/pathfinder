@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     } else {
       return Response.json(threads, { status: 200 });
     }
-  } catch (error: any) {
-    return Response.json({ error: error.message }, { status: 400 });
+  } catch (error) {
+    return Response.json(error, { status: 400 });
   }
 }

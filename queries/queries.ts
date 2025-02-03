@@ -1,11 +1,6 @@
 import axios from "axios";
 import { supabase } from "@/lib/supabase-client";
-import { Thread } from "@/db/queries";
-
-export const getItenerary = async (data: any) => {
-  const res = await axios.post("/api/itenerary", data);
-  return res.data;
-};
+import { NewThread } from "@/types/types";
 
 export const getThreads = async (id: string | undefined) => {
   const res = await axios.post("/api/threads/get-threads", { id });
@@ -19,7 +14,7 @@ export const getThreadById = async (id: string) => {
   return res.data[0];
 };
 
-export const insertThread = async (data: Thread) => {
+export const insertThread = async (data: NewThread) => {
   const res = await axios.post("/api/threads/new-thread", data);
 
   return res.data;
@@ -38,4 +33,25 @@ export const getUser = async () => {
 
 export const getUserDetails = async (id: string | undefined) => {
   return await axios.post("/api/auth/get-user", { id });
+};
+
+export const updateSurveyAnswers = async (
+  threadId: string,
+  answers: Record<string, string>
+) => {
+  const res = await axios.post("/api/threads/update-answers", {
+    threadId,
+    answers,
+  });
+
+  return res.data;
+};
+
+export const updateProcess = async (threadId: string, process: string) => {
+  const res = await axios.post("/api/threads/update-process", {
+    threadId,
+    process,
+  });
+
+  return res.data;
 };

@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   try {
     await insertUser({ id, email, firstName, lastName });
     return Response.json({ message: "User created successfully" });
-  } catch (error: any) {
-    return Response.json({ error: error.message }, { status: 400 });
+  } catch (error) {
+    return Response.json(error, { status: 400 });
   }
 }

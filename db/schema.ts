@@ -13,9 +13,8 @@ export const threadsTable = pgTable("threads", {
     .notNull()
     .references(() => usersTable.id),
   location: text("location"),
-  dates: json("dates"),
-  guests: text("guests"),
-  type: text("type"),
+  process: text("process").default("survey"),
+  surveyAnswers: json("survey_answers"),
   createdAt: timestamp("created_at").defaultNow(),
   content: json("content").array(),
 });

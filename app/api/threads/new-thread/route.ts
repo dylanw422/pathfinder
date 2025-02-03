@@ -1,7 +1,7 @@
 import { insertThread, findThreadByLocation } from "@/db/queries";
 
 export async function POST(req: Request) {
-  const { userId, location, dates, guests, type, content } = await req.json();
+  const { userId, location, content } = await req.json();
 
   try {
     const existingThread = await findThreadByLocation(userId, location);
@@ -11,9 +11,6 @@ export async function POST(req: Request) {
       const newThread = await insertThread({
         userId,
         location,
-        dates,
-        guests,
-        type,
         content,
       });
 
@@ -27,7 +24,7 @@ export async function POST(req: Request) {
       message: "Thread already exists",
       thread: existingThread,
     });
-  } catch (error: any) {
-    return Response.json({ error: error.message }, { status: 400 });
+  } catch (error) {
+    return Response.json(error, { status: 400 });
   }
 }

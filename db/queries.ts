@@ -1,29 +1,7 @@
 import { db } from "@/db";
 import { usersTable, threadsTable } from "./schema";
-import { eq, desc, sql, and } from "drizzle-orm";
-import { DateRange } from "react-day-picker";
-
-export interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-}
-
-export interface Thread {
-  id?: string | undefined;
-  userId: string;
-  location: string;
-  dates: DateRange;
-  guests: string;
-  type: string;
-  content?: JSON[];
-}
-
-export interface ThreadContent {
-  role: string;
-  content: string | null;
-}
+import { eq, desc, and } from "drizzle-orm";
+import { User, ThreadContent, NewThread } from "@/types/types";
 
 export const insertUser = async (data: User) => {
   return await db.insert(usersTable).values(data).returning();
@@ -33,7 +11,7 @@ export const findUser = async (id: string) => {
   return await db.select().from(usersTable).where(eq(usersTable.id, id));
 };
 
-export const insertThread = async (data: Thread) => {
+export const insertThread = async (data: NewThread) => {
   return await db.insert(threadsTable).values(data).returning();
 };
 
@@ -49,23 +27,50 @@ export const findThreadById = async (id: string) => {
   return await db.select().from(threadsTable).where(eq(threadsTable.id, id));
 };
 
-export const findThreadByLocation = async (userId: string, location: string) => {
+export const findThreadByLocation = async (
+  userId: string,
+  location: string
+) => {
   return await db
     .select()
     .from(threadsTable)
-    .where(and(eq(threadsTable.userId, userId), eq(threadsTable.location, location)))
+    .where(
+      and(eq(threadsTable.userId, userId), eq(threadsTable.location, location))
+    )
     .limit(1);
 };
 
-export const updateThread = async (id: string, newContent: ThreadContent) => {
+export const updateThread = async (id: string, newContent: ThreadContent[]) => {
   return await db
     .update(threadsTable)
     .set({
-      content: sql`array_append(${threadsTable.content}, ${newContent})`,
+      content: newContent,
     })
     .where(eq(threadsTable.id, id));
 };
 
 export const deleteThread = async (id: string) => {
   return await db.delete(threadsTable).where(eq(threadsTable.id, id));
+};
+
+export const updateSurveyAnswers = async (
+  threadId: string,
+  answers: Record<string, string>
+) => {
+  return await db
+    .update(threadsTable)
+    .set({
+      surveyAnswers: answers,
+      process: "itenerary",
+    })
+    .where(eq(threadsTable.id, threadId));
+};
+
+export const updateProcess = async (threadId: string, process: string) => {
+  return await db
+    .update(threadsTable)
+    .set({
+      process,
+    })
+    .where(eq(threadsTable.id, threadId));
 };
