@@ -1,3 +1,3 @@
-export async function ChatPage() {
+export default function ChatPage() {
   return <div></div>;
 }
