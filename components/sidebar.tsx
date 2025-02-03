@@ -11,9 +11,9 @@ import {
 import { useSidebar } from "@/components/ui/sidebar";
 import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Thread } from "@/db/queries";
 import React from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { Thread } from "@/types/types";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { Button } from "./ui/button";
 import { useQuery } from "@tanstack/react-query";
