@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { usersTable, threadsTable } from "./schema";
 import { eq, desc, and } from "drizzle-orm";
-import { User, ThreadContent, NewThread } from "@/types/types";
+import { DBUser as User, ThreadContent, NewThread } from "@/types/types";
 
 export const insertUser = async (data: User) => {
   return await db.insert(usersTable).values(data).returning();

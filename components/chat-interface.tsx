@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, ChevronsRight } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { AIChat } from "./ai-chat";
@@ -9,8 +9,10 @@ import { getThreadById, getUser } from "@/queries/queries";
 import { useChat, experimental_useObject as useObject } from "ai/react";
 import { Trip } from "@/app/api/json/schema";
 import QuestionCarousel from "./question-carousel";
+import { useSidebar } from "./ui/sidebar";
 
 export function ChatInterface({ id }: { id: string }) {
+  const { toggleSidebar, state } = useSidebar();
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUser });
   const { data: thread } = useQuery({
@@ -49,7 +51,7 @@ export function ChatInterface({ id }: { id: string }) {
           thread.location
         }. Your goal is to provide a detailed, user-friendly, day-by-day itenerary that matches these details: ${JSON.stringify(
           thread.surveyAnswers
-        )}. Include hotel name and what airports I should from from and to. I only fly from major airports. Im willing to drive to the nearest major airport. Include best departure time so that i can arrive in my destination in the morning.`,
+        )}. Include hotel name and what airports I should fly from from and to. I only fly from major airports. Im willing to drive to the nearest major airport. Include best departure time so that I can arrive in my destination in the morning.`,
       });
     }
   }, [thread]);
@@ -80,22 +82,33 @@ export function ChatInterface({ id }: { id: string }) {
   }
 
   return (
-    <div className="flex flex-col h-screen">
-      <header className="border-b p-4">
+    <div className="flex flex-col h-[100dvh] overflow-hidden">
+      <header className="border-b p-2 flex items-center">
+        {state === "collapsed" && (
+          <ChevronsRight
+            onClick={toggleSidebar}
+            className="text-sidebar-foreground hover:cursor-pointer hover:bg-sidebar-accent transition rounded-sm p-1 mr-2"
+          />
+        )}
         <h1 className="text-md font-bold">Pathfinder AI Helper</h1>
       </header>
       <main className="flex-1 overflow-hidden p-4 flex flex-col relative">
-        <h2 className="text-xl font-bold mb-4">🌎 {thread.location}</h2>
+        <h2 className="md:text-xl text-lg font-bold mb-4">
+          🌎 {thread.location}
+        </h2>
         <div
-          className="w-[95%] pr-4 overflow-y-scroll flex-1"
+          className="w-full overflow-y-scroll flex-1"
           style={{
             scrollbarWidth: "none",
           }}
           ref={scrollAreaRef}
         >
+          {/* SURVEY */}
           {thread.process === "survey" && (
             <QuestionCarousel threadId={thread.id} />
           )}
+
+          {/* ITENERARY, REVIEW, & BOOKING */}
           {(thread.process === "itenerary" || thread.process === "review") && (
             <AIChat
               thread={thread}
@@ -107,19 +120,21 @@ export function ChatInterface({ id }: { id: string }) {
             />
           )}
         </div>
-        <div className="sticky bottom-0 bg-background pt-4">
+
+        {/* TEXT AREA */}
+        <div className="sticky bottom-0 bg-background pt-0">
           <div className="flex items-end space-x-2">
             <Textarea
               value={input}
               onChange={handleInputChange}
               placeholder="Request changes here"
               disabled={thread.process !== "itenerary"}
-              className="resize-none"
+              className="resize-none text-base md:text-sm focus:outline-none" // Updated class
               rows={3}
             />
             <Button
               size="icon"
-              className="mb-1"
+              className="mb-0"
               aria-label="Send message"
               onClick={handleSubmit}
             >

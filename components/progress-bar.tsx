@@ -1,6 +1,4 @@
-interface ProgressBarProps {
-  progress: number;
-}
+import { ProgressBarProps } from "@/types/types";
 
 export function ProgressBar({ progress }: ProgressBarProps) {
   const circumference = 2 * Math.PI * 45; // 45 is the radius of the circle

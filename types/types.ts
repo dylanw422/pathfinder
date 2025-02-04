@@ -1,4 +1,6 @@
-export interface User {
+import { User } from "@supabase/supabase-js";
+
+export interface DBUser {
   id: string;
   email: string;
   firstName: string;
@@ -41,4 +43,21 @@ export interface TripDetails {
     to?: string;
   };
   guests?: number;
+}
+
+export interface ThreadMutation {
+  mutateAsync: (process: string) => Promise<void>;
+}
+
+export interface AIChatProps {
+  thread: Thread;
+  messages: Message[];
+  user: User | null | undefined;
+  isLoading: boolean;
+  submit: (messages: string[]) => void;
+  object: TripDetails | undefined;
+}
+
+export interface ProgressBarProps {
+  progress: number;
 }
