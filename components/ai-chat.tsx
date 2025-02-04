@@ -213,7 +213,7 @@ function ReviewCard({
                 Make Changes
                 <X className="h-6 w-6 text-red-600" />
               </Button>
-              <a href="https://trip.com/" />
+              <a href="https://trip.com/">Trip.com</a>
             </div>
           </div>
         </CardFooter>
