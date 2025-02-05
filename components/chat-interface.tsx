@@ -4,12 +4,14 @@ import { ArrowUp, ChevronsRight } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { AIChat } from "./ai-chat";
-import { useQuery } from "@tanstack/react-query";
-import { getThreadById, getUser } from "@/queries/queries";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getThreadById, getUser, updateReview } from "@/queries/queries";
 import { useChat, experimental_useObject as useObject } from "ai/react";
 import { Trip } from "@/app/api/json/schema";
 import QuestionCarousel from "./question-carousel";
 import { useSidebar } from "./ui/sidebar";
+import { queryClient } from "./query-provider";
+import { TripDetails } from "@/types/types";
 
 export function ChatInterface({ id }: { id: string }) {
   const { toggleSidebar, state } = useSidebar();
@@ -36,6 +38,17 @@ export function ChatInterface({ id }: { id: string }) {
   const { object, submit } = useObject({
     api: "/api/json",
     schema: Trip,
+    onFinish({ object }) {
+      reviewMutation.mutateAsync(object);
+    },
+  });
+
+  const reviewMutation = useMutation({
+    mutationFn: (object: TripDetails | undefined) =>
+      updateReview(thread.id, object),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`thread-${thread.id}`] });
+    },
   });
 
   React.useEffect(() => {

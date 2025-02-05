@@ -17,4 +17,6 @@ export const threadsTable = pgTable("threads", {
   surveyAnswers: json("survey_answers"),
   createdAt: timestamp("created_at").defaultNow(),
   content: json("content").array(),
+  hotelImage: text("hotel_image"),
+  review: json("review"),
 });

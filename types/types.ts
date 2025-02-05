@@ -21,6 +21,7 @@ export interface Thread {
   survey_answers?: JSON | undefined;
   created_at: string;
   content?: JSON[];
+  review: TripDetails | undefined;
 }
 
 export interface ThreadContent {
@@ -45,7 +46,7 @@ export interface TripDetails {
   guests?: number;
 }
 
-export interface ThreadMutation {
+export interface ProcessMutation {
   mutateAsync: (process: string) => Promise<void>;
 }
 

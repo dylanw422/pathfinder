@@ -1,7 +1,12 @@
 import { db } from "@/db";
 import { usersTable, threadsTable } from "./schema";
 import { eq, desc, and } from "drizzle-orm";
-import { DBUser as User, ThreadContent, NewThread } from "@/types/types";
+import {
+  DBUser as User,
+  ThreadContent,
+  NewThread,
+  TripDetails,
+} from "@/types/types";
 
 export const insertUser = async (data: User) => {
   return await db.insert(usersTable).values(data).returning();
@@ -71,6 +76,19 @@ export const updateProcess = async (threadId: string, process: string) => {
     .update(threadsTable)
     .set({
       process,
+    })
+    .where(eq(threadsTable.id, threadId));
+};
+
+export const updateReview = async (
+  threadId: string,
+  object: TripDetails | undefined
+) => {
+  return await db
+    .update(threadsTable)
+    .set({
+      review: object,
+      process: "review",
     })
     .where(eq(threadsTable.id, threadId));
 };

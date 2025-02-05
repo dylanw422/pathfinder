@@ -1,6 +1,6 @@
 import axios from "axios";
 import { supabase } from "@/lib/supabase-client";
-import { NewThread } from "@/types/types";
+import { NewThread, TripDetails } from "@/types/types";
 
 export const getThreads = async (id: string | undefined) => {
   const res = await axios.post("/api/threads/get-threads", { id });
@@ -53,5 +53,28 @@ export const updateProcess = async (threadId: string, process: string) => {
     process,
   });
 
+  return res.data;
+};
+
+export const updateReview = async (
+  threadId: string,
+  object: TripDetails | undefined
+) => {
+  const res = await axios.post("/api/threads/update-review", {
+    threadId,
+    object,
+  });
+
+  return res.data;
+};
+
+export const getHotel = async (
+  method: string,
+  object: TripDetails | undefined
+) => {
+  const res = await axios.post("/api/hotel", {
+    method,
+    object,
+  });
   return res.data;
 };

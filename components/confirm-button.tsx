@@ -1,0 +1,24 @@
+import { motion } from "motion/react";
+
+export function ConfirmButton({
+  handleContinue,
+}: {
+  handleContinue: (process: string) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="w-full flex items-center justify-end space-x-2 pb-4"
+    >
+      <p className="text-sm text-muted-foreground">Click to proceed</p>
+      <button
+        onClick={() => handleContinue("review")}
+        className="px-4 py-2 rounded-full bg-blue-500 text-white md:text-base text-sm"
+      >
+        This looks good! 👍
+      </button>
+    </motion.div>
+  );
+}
