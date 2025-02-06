@@ -34,13 +34,13 @@ export function HomeNav() {
 
   return (
     <div className="relative w-full">
-      <div className="p-4 px-8 flex justify-between items-center max-w-7xl mx-auto">
+      <div className="p-2 md:p-4 px-4 md:px-8 flex justify-between items-center max-w-7xl mx-auto">
         <h1 className="text-xl font-semibold">
           <em>Pathfinder</em>
         </h1>
         <div
           id="menu"
-          className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-t border-t-white/20 shadow-md rounded-full bg-white/10 backdrop-blur-md px-8 flex items-center gap-x-8"
+          className="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-t border-t-white/20 shadow-md rounded-full bg-white/10 backdrop-blur-md px-8 flex items-center gap-x-8"
         >
           <Link
             href="#about"
@@ -82,7 +82,9 @@ export function HomeNav() {
               >
                 Hello, {user?.user_metadata?.first_name}{" "}
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-300 ${open ? "-rotate-180" : "rotate-0"}`}
+                  className={`w-4 h-4 transition-transform duration-300 ${
+                    open ? "-rotate-180" : "rotate-0"
+                  }`}
                 />
               </Button>
             </DropdownMenuTrigger>

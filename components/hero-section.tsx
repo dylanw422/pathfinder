@@ -42,18 +42,18 @@ export function HeroSection() {
   };
 
   return (
-    <div className="w-full flex flex-col justify-center items-center py-48 px-48 relative">
-      <h1
-        className="text-6xl font-semibold text-center"
-        style={{ textShadow: "0px 0px 10px #000" }}
-      >
-        Your Next Adventure, Effortlessly Planned
-      </h1>
+    <div className="min-w-full min-h-full px-4 sm:px-6 md:px-12 lg:px-24 xl:px-48 py-24 md:py-48">
+      <div className="w-full max-w-3xl mx-auto">
+        <h1
+          className="text-5xl md:text-6xl font-semibold text-center mb-8"
+          style={{ textShadow: "0px 0px 10px #000" }}
+        >
+          Your Next Adventure, Effortlessly Planned
+        </h1>
 
-      <div className="max-w-3xl mx-auto mt-8">
-        <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/20">
+        <div className="flex flex-col sm:flex-row items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/20">
           {/* Destination Input */}
-          <div className="flex-1 relative">
+          <div className="w-full sm:flex-1 relative">
             <input
               type="text"
               placeholder="Where's your next adventure?"
@@ -63,7 +63,7 @@ export function HeroSection() {
                        shadow-[inset_0_2px_5px_rgba(0,0,0,0.2)] 
                        focus:outline-none
                        text-white placeholder-white/60
-                       text-lg"
+                       text-base sm:text-lg"
             />
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/60 w-5 h-5" />
           </div>
@@ -71,10 +71,11 @@ export function HeroSection() {
           {/* Start Booking Button */}
           <button
             onClick={startBooking}
-            className="px-6 py-4 bg-blue-500
+            className="w-full sm:w-auto px-6 py-4 bg-blue-500
                      text-white font-semibold rounded-xl 
                      shadow-md hover:shadow-lg transition-all duration-300 ease-in-out
-                     flex items-center gap-2 min-w-[140px] justify-center"
+                     flex items-center gap-2 justify-center
+                     text-base sm:text-lg"
           >
             <Plane className="w-5 h-5" />
             <span>Let&apos;s Fly!</span>
