@@ -88,7 +88,6 @@ export const updateReview = async (
     .update(threadsTable)
     .set({
       review: object,
-      process: "review",
     })
     .where(eq(threadsTable.id, threadId));
 };

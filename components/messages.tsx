@@ -19,21 +19,23 @@ export function Messages({
         msg.role === "user" ? "flex-row-reverse w-full gap-2" : ""
       }`}
     >
-      <Avatar className="md:w-10 md:h-10 w-8 h-8">
+      <Avatar className="md:w-10 md:h-10 w-7 h-7">
         <AvatarFallback
           className={`${msg.role === "user" ? "bg-secondary" : "bg-blue-500"}`}
         >
           {msg.role === "user" ? (
-            <h1>{user?.user_metadata?.first_name.slice(0, 1)}</h1>
+            <h1 className="md:text-lg text-sm">
+              {user?.user_metadata?.first_name.slice(0, 1)}
+            </h1>
           ) : (
-            <em className="font-bold text-white text-xl">P</em>
+            <em className="font-bold text-white md:text-xl text-sm">P</em>
           )}
         </AvatarFallback>
       </Avatar>
       <div
         className={`p-0 ${
           msg.role === "user"
-            ? "py-2 bg-secondary text-primary-foreground rounded-xl"
+            ? "p-2 bg-secondary text-primary-foreground rounded-full"
             : "text-secondary-foreground"
         }`}
       >

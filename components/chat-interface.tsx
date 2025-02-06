@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { ArrowUp, ChevronsRight } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
@@ -16,12 +16,14 @@ import { TripDetails } from "@/types/types";
 export function ChatInterface({ id }: { id: string }) {
   const { toggleSidebar, state } = useSidebar();
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
+  const [messageReceived, setMessageReceived] = React.useState(false);
   const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUser });
   const { data: thread } = useQuery({
     queryKey: [`thread-${id}`],
     queryFn: () => getThreadById(id),
     enabled: !!id,
   });
+
   const {
     append,
     messages,
@@ -34,7 +36,11 @@ export function ChatInterface({ id }: { id: string }) {
     body: {
       threadId: thread?.id,
     },
+    onFinish: () => {
+      setMessageReceived(true);
+    },
   });
+
   const { object, submit } = useObject({
     api: "/api/json",
     schema: Trip,
@@ -51,7 +57,14 @@ export function ChatInterface({ id }: { id: string }) {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (messageReceived) {
+      submit(messages.map((msg) => msg.content));
+      setMessageReceived(false);
+    }
+  }, [messageReceived]);
+
+  useEffect(() => {
     if (
       thread &&
       thread.process === "itenerary" &&
@@ -79,15 +92,15 @@ export function ChatInterface({ id }: { id: string }) {
     }
   };
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     scrollToBottom();
-  }, [messages, object, isLoading]);
+  }, [messages, object, isLoading, thread]);
 
   // BLANK RENDER FOR LOADING
   if (!thread || !messages) {
@@ -96,19 +109,18 @@ export function ChatInterface({ id }: { id: string }) {
 
   return (
     <div className="flex flex-col h-[100dvh] overflow-hidden">
-      <header className="border-b p-2 flex items-center">
-        {state === "collapsed" && (
+      <main className="flex-1 overflow-hidden flex flex-col relative">
+        <div className="md:text-xl flex items-center text-center text-lg font-bold mb-4 border-b p-2">
           <ChevronsRight
+            className={`text-sidebar-foreground hover:cursor-pointer hover:bg-sidebar-accent transition rounded-sm p-1  ${
+              state === "expanded" ? "md:hidden block" : ""
+            }`}
             onClick={toggleSidebar}
-            className="text-sidebar-foreground hover:cursor-pointer hover:bg-sidebar-accent transition rounded-sm p-1 mr-2"
           />
-        )}
-        <h1 className="text-md font-bold">Pathfinder AI Helper</h1>
-      </header>
-      <main className="flex-1 overflow-hidden p-4 flex flex-col relative">
-        <h2 className="md:text-xl text-lg font-bold mb-4">
-          🌎 {thread.location}
-        </h2>
+          <h1 className="absolute left-1/2 -translate-x-1/2 md:relative md:text-center">
+            🌎 {thread.location}
+          </h1>
+        </div>
         <div
           className="w-full overflow-y-scroll flex-1"
           style={{
@@ -135,14 +147,14 @@ export function ChatInterface({ id }: { id: string }) {
         </div>
 
         {/* TEXT AREA */}
-        <div className="sticky bottom-0 bg-background pt-0">
+        <div className="sticky bottom-0 bg-background pb-2 pl-2 pr-2">
           <div className="flex items-end space-x-2">
             <Textarea
               value={input}
               onChange={handleInputChange}
               placeholder="Request changes here"
               disabled={thread.process !== "itenerary"}
-              className="resize-none text-base md:text-sm focus:outline-none" // Updated class
+              className="resize-none text-sm md:text-sm focus:outline-none" // Updated class
               rows={3}
             />
             <Button

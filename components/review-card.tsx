@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { ArrowRight, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
@@ -50,9 +50,8 @@ export function ReviewCard({
             </div>
             <div>
               <h3 className="font-semibold mb-1">Dates</h3>
-              <p className="flex items-center gap-1">
-                {object.dates?.from} <ArrowRight className="p-1" />{" "}
-                {object.dates?.to}
+              <p className="gap-1">
+                {object.dates?.from} - {object.dates?.to}
               </p>
             </div>
             <div>
@@ -64,10 +63,10 @@ export function ReviewCard({
         <CardFooter className="flex flex-col items-start space-y-4">
           <p className="font-semibold md:text-lg">Start booking? 👇</p>
           <div className="flex justify-between w-full">
-            <div className="space-x-4">
+            <div className="md:space-x-4 space-x-2">
               <Button
                 variant="outline"
-                className="p-4 md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200"
+                className="md:p-4 md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
                 onClick={() => {
                   console.log("Trip confirmed");
                 }}
@@ -77,7 +76,7 @@ export function ReviewCard({
               </Button>
               <Button
                 variant="outline"
-                className="px-4 md:h-12 h-10 rounded-md text-red-500 hover:text-red-600 bg-red-100 hover:bg-red-200"
+                className="px-4 md:h-12 h-10 rounded-md text-red-500 hover:text-red-600 bg-red-100 hover:bg-red-200 md:text-sm text-xs"
                 onClick={() => {
                   processMutation.mutateAsync("itenerary");
                 }}

@@ -13,7 +13,6 @@ export function AIChat({
   messages,
   user,
   isLoading,
-  submit,
   object,
 }: AIChatProps) {
   const queryClient = useQueryClient();
@@ -28,12 +27,11 @@ export function AIChat({
   });
 
   const handleContinue = async (process: string) => {
-    submit(messages.map((msg) => msg.content));
     await processMutation.mutateAsync(process);
   };
 
   return (
-    <div className="md:mr-16">
+    <div className="md:mr-16 px-4">
       {messages
         .filter((msg) => msg.role !== "system")
         .map((msg, index) => (
@@ -44,10 +42,7 @@ export function AIChat({
           messages.length > 0 &&
           messages[messages.length - 1].role === "assistant" &&
           thread.process === "itenerary" &&
-          !isLoading &&
-          (thread.process === "itenerary" || thread.process === "review") && (
-            <ConfirmButton handleContinue={handleContinue} />
-          )}
+          !isLoading && <ConfirmButton handleContinue={handleContinue} />}
       </AnimatePresence>
       <AnimatePresence>
         {renderObject && thread.process === "review" && (
