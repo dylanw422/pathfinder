@@ -1,6 +1,5 @@
 import { HeroSection } from "@/components/hero-section";
 import { HomeNav } from "@/components/home-nav";
-import { Stats } from "@/components/stats";
 
 export default function Home() {
   return (
@@ -15,7 +14,6 @@ export default function Home() {
       >
         <HomeNav />
         <HeroSection />
-        <Stats />
       </div>
     </div>
   );

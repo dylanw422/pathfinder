@@ -8,16 +8,8 @@ import { Messages } from "./messages";
 import { ConfirmButton } from "./confirm-button";
 import { ReviewCard } from "./review-card";
 
-export function AIChat({
-  thread,
-  messages,
-  user,
-  isLoading,
-  object,
-}: AIChatProps) {
+export function AIChat({ thread, messages, user, isLoading }: AIChatProps) {
   const queryClient = useQueryClient();
-
-  const renderObject = thread.review ? thread.review : object;
 
   const processMutation = useMutation({
     mutationFn: (process: string) => updateProcess(thread.id, process),
@@ -45,8 +37,11 @@ export function AIChat({
           !isLoading && <ConfirmButton handleContinue={handleContinue} />}
       </AnimatePresence>
       <AnimatePresence>
-        {renderObject && thread.process === "review" && (
-          <ReviewCard object={renderObject} processMutation={processMutation} />
+        {thread.review && thread.process === "review" && (
+          <ReviewCard
+            object={thread.review}
+            processMutation={processMutation}
+          />
         )}
       </AnimatePresence>
     </div>

@@ -42,10 +42,10 @@ export function HeroSection() {
   };
 
   return (
-    <div className="min-w-full min-h-full px-4 sm:px-6 md:px-12 lg:px-24 xl:px-48 py-24 md:py-48">
+    <div className="min-w-full min-h-full px-4 sm:px-6 md:px-12 lg:px-24 xl:px-48 py-24 md:py-36">
       <div className="w-full max-w-3xl mx-auto">
         <h1
-          className="text-5xl md:text-6xl font-semibold text-center mb-8"
+          className="text-4xl md:text-6xl font-semibold text-center mb-8"
           style={{ textShadow: "0px 0px 10px #000" }}
         >
           Your Next Adventure, Effortlessly Planned
