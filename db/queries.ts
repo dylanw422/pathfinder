@@ -91,3 +91,12 @@ export const updateReview = async (
     })
     .where(eq(threadsTable.id, threadId));
 };
+
+export const updateHotelLink = async (threadId: string, hotelLink: string) => {
+  return await db
+    .update(threadsTable)
+    .set({
+      hotelLink: hotelLink,
+    })
+    .where(eq(threadsTable.id, threadId));
+};

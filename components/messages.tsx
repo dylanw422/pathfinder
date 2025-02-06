@@ -4,17 +4,14 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { MarkdownContent } from "./ui/markdown-content";
 
 export function Messages({
-  index,
   msg,
   user,
 }: {
-  index: number;
   msg: Message;
   user: User | null | undefined;
 }) {
   return (
     <div
-      key={index}
       className={`flex items-start space-x-0 mb-4 ${
         msg.role === "user" ? "flex-row-reverse w-full gap-2" : ""
       }`}

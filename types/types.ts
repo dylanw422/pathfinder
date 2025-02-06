@@ -21,6 +21,7 @@ export interface Thread {
   survey_answers?: JSON | undefined;
   created_at: string;
   content?: JSON[];
+  hotelImage?: string;
   review: TripDetails | undefined;
 }
 
@@ -44,10 +45,6 @@ export interface TripDetails {
     to?: string;
   };
   guests?: number;
-}
-
-export interface ProcessMutation {
-  mutateAsync: (process: string) => Promise<void>;
 }
 
 export interface AIChatProps {

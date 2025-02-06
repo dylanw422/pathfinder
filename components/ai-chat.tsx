@@ -1,8 +1,7 @@
 import React from "react";
-import { AnimatePresence } from "motion/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { updateProcess } from "@/queries/queries";
+import { getHotel, updateProcess } from "@/queries/queries";
 import { AIChatProps } from "@/types/types";
 import { Messages } from "./messages";
 import { ConfirmButton } from "./confirm-button";
@@ -22,28 +21,38 @@ export function AIChat({ thread, messages, user, isLoading }: AIChatProps) {
     await processMutation.mutateAsync(process);
   };
 
+  const hotelLinkMutation = useMutation({
+    mutationFn: () => getHotel(thread.id, "hotelLink", thread.review),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [`thread-${thread.id}`] });
+    },
+  });
+
   return (
     <div className="md:mr-16 px-4">
       {messages
         .filter((msg) => msg.role !== "system")
-        .map((msg, index) => (
-          <Messages key={index} index={index} msg={msg} user={user} />
+        .map((msg) => (
+          <Messages key={messages.indexOf(msg)} msg={msg} user={user} />
         ))}
-      <AnimatePresence>
-        {messages &&
-          messages.length > 0 &&
-          messages[messages.length - 1].role === "assistant" &&
-          thread.process === "itenerary" &&
-          !isLoading && <ConfirmButton handleContinue={handleContinue} />}
-      </AnimatePresence>
-      <AnimatePresence>
-        {thread.review && thread.process === "review" && (
-          <ReviewCard
-            object={thread.review}
-            processMutation={processMutation}
-          />
-        )}
-      </AnimatePresence>
+      {messages &&
+        messages.length > 0 &&
+        messages[messages.length - 1].role === "assistant" &&
+        thread.process === "itenerary" &&
+        !isLoading && <ConfirmButton handleContinue={handleContinue} />}
+      {thread.review && thread.process === "review" && (
+        <ReviewCard
+          object={thread.review}
+          processMutation={processMutation}
+          hotelLinkMutation={hotelLinkMutation}
+        />
+      )}
+      {thread.hotelImage && thread.process === "review" && (
+        <img
+          className="pl-8 pb-4"
+          src={`data:image/png;base64,${thread.hotelImage}`}
+        />
+      )}
     </div>
   );
 }

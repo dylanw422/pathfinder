@@ -69,10 +69,12 @@ export const updateReview = async (
 };
 
 export const getHotel = async (
+  threadId: string,
   method: string,
   object: TripDetails | undefined
 ) => {
   const res = await axios.post("/api/hotel", {
+    threadId,
     method,
     object,
   });

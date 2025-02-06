@@ -1,4 +1,4 @@
-import { ProcessMutation, TripDetails } from "@/types/types";
+import { TripDetails } from "@/types/types";
 import { motion } from "motion/react";
 import {
   Card,
@@ -7,23 +7,28 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Check, X } from "lucide-react";
+import { Check, ExternalLink, LoaderCircle, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import Link from "next/link";
+import { UseMutationResult } from "@tanstack/react-query";
 
 export function ReviewCard({
   object,
   processMutation,
+  hotelLinkMutation,
 }: {
   object: TripDetails;
-  processMutation: ProcessMutation;
+  processMutation: UseMutationResult<unknown, Error, string, unknown>;
+  hotelLinkMutation: UseMutationResult<unknown, Error, void, unknown>;
 }) {
+  const formatDate = (date: string | undefined) => {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Card className="mb-4 mt-4 ml-8 text-sm md:text-base">
         <CardHeader>
           <CardTitle>Trip Summary</CardTitle>
@@ -37,7 +42,23 @@ export function ReviewCard({
             <div className="flex items-center gap-12">
               <div>
                 <h3 className="font-semibold mb-1">Hotel</h3>
-                <p className="flex items-center gap-2">{object.hotel_name}</p>
+                <p className="flex items-center gap-2">
+                  {object.hotel_name}
+                  <Link
+                    href={`https://us.trip.com/hotels/list?checkIn=${formatDate(
+                      object.dates?.from
+                    )}&checkOut=${object.dates?.to}searchWord=${
+                      object.hotel_name
+                    }&adult=${object.guests}`}
+                    target="_blank"
+                  >
+                    <ExternalLink className="w-4 h-4 hover:cursor-pointer" />
+                  </Link>
+                </p>
+                <p className="text-xs italic text-muted-foreground">
+                  Pathfinder earns a commission from purchases made through this
+                  link.
+                </p>
               </div>
             </div>
             <div>
@@ -62,29 +83,31 @@ export function ReviewCard({
         </CardContent>
         <CardFooter className="flex flex-col items-start space-y-4">
           <p className="font-semibold md:text-lg">Start booking? 👇</p>
-          <div className="flex justify-between w-full">
-            <div className="md:space-x-4 space-x-2">
-              <Button
-                variant="outline"
-                className="md:p-4 md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
-                onClick={() => {
-                  console.log("Trip confirmed");
-                }}
-              >
-                View Hotel
+          <div className="flex md:flex-row flex-col items-center justify-between w-full space-y-2 md:space-y-0 md:space-x-4">
+            <Button
+              variant="outline"
+              className="w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
+              onClick={() => {
+                hotelLinkMutation.mutate();
+              }}
+            >
+              {hotelLinkMutation.isPending ? "Fetching Link" : "Checkout Hotel"}
+              {hotelLinkMutation.isPending ? (
+                <LoaderCircle className="h-6 w-6 text-green-600 animate-spin" />
+              ) : (
                 <Check className="h-6 w-6 text-green-600" />
-              </Button>
-              <Button
-                variant="outline"
-                className="px-4 md:h-12 h-10 rounded-md text-red-500 hover:text-red-600 bg-red-100 hover:bg-red-200 md:text-sm text-xs"
-                onClick={() => {
-                  processMutation.mutateAsync("itenerary");
-                }}
-              >
-                Make Changes
-                <X className="h-6 w-6 text-red-600" />
-              </Button>
-            </div>
+              )}
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full md:h-12 h-10 rounded-md text-red-500 hover:text-red-600 bg-red-100 hover:bg-red-200 md:text-sm text-xs"
+              onClick={() => {
+                processMutation.mutate("itenerary");
+              }}
+            >
+              Make Changes
+              <X className="h-6 w-6 text-red-600" />
+            </Button>
           </div>
         </CardFooter>
       </Card>

@@ -1,9 +1,10 @@
+import { updateHotelLink } from "@/db/queries";
 import axios from "axios";
 
 export async function POST(req: Request) {
-  const { method, object } = await req.json();
+  const { threadId, method, object } = await req.json();
   if (method && object) {
-    if (method === "hotelImage") {
+    if (method === "hotelLink") {
       const res = await axios.post(
         "http://localhost:3001/api/hotels/get-hotel",
         {
@@ -12,11 +13,10 @@ export async function POST(req: Request) {
           dateTo: object.dates.to,
         }
       );
-      return Response.json(res.data);
-    }
 
-    if (method === "hotelCheckout") {
-      return Response.json({ msg: "hotelCheckout", status: 200 });
+      await updateHotelLink(threadId, res.data.link);
+
+      return Response.json(res.data);
     }
   }
 
