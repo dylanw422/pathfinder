@@ -41,7 +41,7 @@ export function Login() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="flex w-full min-h-screen"
+      className="flex w-full min-h-[100dvh]"
     >
       <div
         id="login"
