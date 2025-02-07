@@ -45,7 +45,7 @@ export function Login() {
     >
       <div
         id="login"
-        className="w-full md:w-1/2 min-h-screen p-6 sm:p-12 md:p-24 flex flex-col justify-center relative"
+        className="w-full md:w-1/2 min-h-full p-6 sm:p-12 md:p-24 flex flex-col justify-center relative"
       >
         <button
           onClick={() => router.push("/")}

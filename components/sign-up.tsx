@@ -67,11 +67,11 @@ export function Signup() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="flex w-full min-h-screen"
+      className="flex w-full min-h-[100dvh]"
     >
       <div
         id="signup"
-        className="w-full md:w-1/2 min-h-[100dvh] p-6 sm:p-12 md:p-24 flex flex-col justify-center relative"
+        className="w-full md:w-1/2 min-h-full p-6 sm:p-12 md:p-24 flex flex-col justify-center relative"
       >
         <button
           onClick={() => router.push("/")}
