@@ -154,7 +154,7 @@ export function ChatInterface({ id }: { id: string }) {
               onChange={handleInputChange}
               placeholder="Request changes here"
               disabled={thread.process !== "itenerary"}
-              className="resize-none text-sm md:text-sm focus:outline-none" // Updated class
+              className="resize-none text-base focus:outline-none" // Updated class
               rows={3}
             />
             <Button

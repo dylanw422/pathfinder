@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Hotel, Info, Plane, X } from "lucide-react";
+import { Hotel, Plane, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -62,7 +62,7 @@ export function ReviewCard({
         </CardContent>
         <CardFooter className="flex flex-col items-start space-y-0">
           <p className="font-semibold md:text-lg pb-4">Start booking? 👇</p>
-          <div className="flex md:flex-row flex-col items-center justify-between w-full space-y-2 md:space-y-0 md:space-x-2">
+          <div className="flex lg:flex-row flex-col items-center justify-between w-full space-y-2 lg:space-y-0 lg:space-x-2">
             <Link href={`${hotelLink}`} target="_blank" className="w-full">
               <Button
                 variant="outline"
@@ -93,8 +93,8 @@ export function ReviewCard({
             </Button>
           </div>
           <p className="p-0 text-xs md:text-sm text-muted-foreground italic pt-2 flex items-center gap-1">
-            <Info className="w-4 h-4" /> Pathfinder earns a commission from
-            purchases made through these links.
+            Pathfinder earns a commission from purchases made through these
+            links.
           </p>
         </CardFooter>
       </Card>
