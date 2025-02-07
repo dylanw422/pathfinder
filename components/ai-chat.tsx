@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { getHotel, updateProcess } from "@/queries/queries";
+import { updateProcess } from "@/queries/queries";
 import { AIChatProps } from "@/types/types";
 import { Messages } from "./messages";
 import { ConfirmButton } from "./confirm-button";
@@ -21,13 +21,6 @@ export function AIChat({ thread, messages, user, isLoading }: AIChatProps) {
     await processMutation.mutateAsync(process);
   };
 
-  const hotelLinkMutation = useMutation({
-    mutationFn: () => getHotel(thread.id, "hotelLink", thread.review),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`thread-${thread.id}`] });
-    },
-  });
-
   return (
     <div className="md:mr-16 px-4">
       {messages
@@ -44,13 +37,7 @@ export function AIChat({ thread, messages, user, isLoading }: AIChatProps) {
         <ReviewCard
           object={thread.review}
           processMutation={processMutation}
-          hotelLinkMutation={hotelLinkMutation}
-        />
-      )}
-      {thread.hotelImage && thread.process === "review" && (
-        <img
-          className="pl-8 pb-4"
-          src={`data:image/png;base64,${thread.hotelImage}`}
+          hotelLink={thread.hotelLink}
         />
       )}
     </div>

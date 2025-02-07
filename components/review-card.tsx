@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Check, ExternalLink, LoaderCircle, X } from "lucide-react";
+import { Hotel, Info, Plane, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -16,17 +16,12 @@ import { UseMutationResult } from "@tanstack/react-query";
 export function ReviewCard({
   object,
   processMutation,
-  hotelLinkMutation,
+  hotelLink,
 }: {
   object: TripDetails;
   processMutation: UseMutationResult<unknown, Error, string, unknown>;
-  hotelLinkMutation: UseMutationResult<unknown, Error, void, unknown>;
+  hotelLink: string | undefined;
 }) {
-  const formatDate = (date: string | undefined) => {
-    if (!date) return "";
-    return new Date(date).toISOString().split("T")[0];
-  };
-
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <Card className="mb-4 mt-4 ml-8 text-sm md:text-base">
@@ -42,23 +37,7 @@ export function ReviewCard({
             <div className="flex items-center gap-12">
               <div>
                 <h3 className="font-semibold mb-1">Hotel</h3>
-                <p className="flex items-center gap-2">
-                  {object.hotel_name}
-                  <Link
-                    href={`https://us.trip.com/hotels/list?checkIn=${formatDate(
-                      object.dates?.from
-                    )}&checkOut=${object.dates?.to}searchWord=${
-                      object.hotel_name
-                    }&adult=${object.guests}`}
-                    target="_blank"
-                  >
-                    <ExternalLink className="w-4 h-4 hover:cursor-pointer" />
-                  </Link>
-                </p>
-                <p className="text-xs italic text-muted-foreground">
-                  Pathfinder earns a commission from purchases made through this
-                  link.
-                </p>
+                <p className="flex items-center gap-2">{object.hotel_name}</p>
               </div>
             </div>
             <div>
@@ -81,23 +60,31 @@ export function ReviewCard({
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex flex-col items-start space-y-4">
-          <p className="font-semibold md:text-lg">Start booking? 👇</p>
-          <div className="flex md:flex-row flex-col items-center justify-between w-full space-y-2 md:space-y-0 md:space-x-4">
-            <Button
-              variant="outline"
-              className="w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
-              onClick={() => {
-                hotelLinkMutation.mutate();
-              }}
+        <CardFooter className="flex flex-col items-start space-y-0">
+          <p className="font-semibold md:text-lg pb-4">Start booking? 👇</p>
+          <div className="flex md:flex-row flex-col items-center justify-between w-full space-y-2 md:space-y-0 md:space-x-2">
+            <Link
+              href={`https://us.trip.com${hotelLink}`}
+              target="_blank"
+              className="w-full"
             >
-              {hotelLinkMutation.isPending ? "Fetching Link" : "Checkout Hotel"}
-              {hotelLinkMutation.isPending ? (
-                <LoaderCircle className="h-6 w-6 text-green-600 animate-spin" />
-              ) : (
-                <Check className="h-6 w-6 text-green-600" />
-              )}
-            </Button>
+              <Button
+                variant="outline"
+                className="w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
+              >
+                Checkout Hotel <Hotel className="h-5 w-5" />
+              </Button>
+            </Link>
+
+            <Link href={``} target="_blank" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
+              >
+                {" "}
+                Checkout Flight <Plane className="h-5 w-5 rotate-45" />
+              </Button>
+            </Link>
             <Button
               variant="outline"
               className="w-full md:h-12 h-10 rounded-md text-red-500 hover:text-red-600 bg-red-100 hover:bg-red-200 md:text-sm text-xs"
@@ -109,6 +96,10 @@ export function ReviewCard({
               <X className="h-6 w-6 text-red-600" />
             </Button>
           </div>
+          <p className="p-0 text-xs md:text-sm text-muted-foreground italic pt-2 flex items-center gap-1">
+            <Info className="w-4 h-4" /> Pathfinder earns a commission from
+            purchases made through these links.
+          </p>
         </CardFooter>
       </Card>
     </motion.div>

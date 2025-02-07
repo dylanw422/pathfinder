@@ -21,7 +21,7 @@ export interface Thread {
   survey_answers?: JSON | undefined;
   created_at: string;
   content?: JSON[];
-  hotelImage?: string;
+  hotelLink?: string;
   review: TripDetails | undefined;
 }
 
