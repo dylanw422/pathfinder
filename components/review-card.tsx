@@ -63,11 +63,7 @@ export function ReviewCard({
         <CardFooter className="flex flex-col items-start space-y-0">
           <p className="font-semibold md:text-lg pb-4">Start booking? 👇</p>
           <div className="flex md:flex-row flex-col items-center justify-between w-full space-y-2 md:space-y-0 md:space-x-2">
-            <Link
-              href={`https://us.trip.com${hotelLink}`}
-              target="_blank"
-              className="w-full"
-            >
+            <Link href={`${hotelLink}`} target="_blank" className="w-full">
               <Button
                 variant="outline"
                 className="w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"

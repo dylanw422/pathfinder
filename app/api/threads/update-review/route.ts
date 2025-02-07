@@ -176,9 +176,17 @@ export async function POST(req: Request) {
 
     // DESTRUCTURE TRIP.COM HOTEL API RESPONSE
     const hotelLink = hotelRes.data.hotelList[0].hotelBasicInfo.jumpUrl;
+    const hotelURL = new URL(`https://us.trip.com${hotelLink}`);
+    const params = new URLSearchParams(hotelURL.search);
+    params.set("checkIn", formatDate(object.dates.from));
+    params.set("checkOut", formatDate(object.dates.to));
+    params.set("adult", object.guests);
+    hotelURL.search = params.toString();
+    const finalHotelLink = hotelURL.toString();
 
+    console.log(finalHotelLink);
     // ADD HOTEL LINK TO DB
-    await updateHotelLink(threadId, hotelLink);
+    await updateHotelLink(threadId, finalHotelLink);
 
     return Response.json({ msg: "success" }, { status: 200 });
   }
