@@ -20,3 +20,8 @@ export async function POST(req: Request) {
 
   return result.toDataStreamResponse();
 }
+
+export const config = {
+  // Specifies the maximum allowed duration for this function to execute (in seconds)
+  maxDuration: 60,
+};
