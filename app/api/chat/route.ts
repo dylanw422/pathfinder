@@ -21,4 +21,4 @@ export async function POST(req: Request) {
   return result.toDataStreamResponse();
 }
 
-export const maxDuration = 30;
+export const maxDuration = 45;

@@ -12,7 +12,6 @@ export function AIChat({
   messages,
   user,
   isLoading,
-  responseFinished,
   setResponseFinished,
 }: AIChatProps) {
   const queryClient = useQueryClient();
@@ -38,7 +37,6 @@ export function AIChat({
       {messages &&
         messages.length > 0 &&
         thread.process === "itenerary" &&
-        responseFinished &&
         !isLoading && (
           <ConfirmButton
             handleContinue={handleContinue}
