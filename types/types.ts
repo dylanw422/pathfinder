@@ -54,8 +54,6 @@ export interface AIChatProps {
   isLoading: boolean;
   submit: (messages: string[]) => void;
   object: TripDetails | undefined;
-  responseFinished: boolean;
-  setResponseFinished: (responseFinished: boolean) => void;
 }
 
 export interface ProgressBarProps {

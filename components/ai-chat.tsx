@@ -7,13 +7,7 @@ import { Messages } from "./messages";
 import { ConfirmButton } from "./confirm-button";
 import { ReviewCard } from "./review-card";
 
-export function AIChat({
-  thread,
-  messages,
-  user,
-  isLoading,
-  setResponseFinished,
-}: AIChatProps) {
+export function AIChat({ thread, messages, user, isLoading }: AIChatProps) {
   const queryClient = useQueryClient();
 
   const processMutation = useMutation({
@@ -37,12 +31,7 @@ export function AIChat({
       {messages &&
         messages.length > 0 &&
         thread.process === "itenerary" &&
-        !isLoading && (
-          <ConfirmButton
-            handleContinue={handleContinue}
-            setResponseFinished={setResponseFinished}
-          />
-        )}
+        !isLoading && <ConfirmButton handleContinue={handleContinue} />}
       {thread.review && thread.process === "review" && (
         <ReviewCard
           object={thread.review}

@@ -17,7 +17,6 @@ export function ChatInterface({ id }: { id: string }) {
   const { toggleSidebar, state } = useSidebar();
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
   const [messageReceived, setMessageReceived] = React.useState(false);
-  const [responseFinished, setResponseFinished] = React.useState(false);
   const { data: user } = useQuery({ queryKey: ["user"], queryFn: getUser });
   const { data: thread } = useQuery({
     queryKey: [`thread-${id}`],
@@ -39,7 +38,6 @@ export function ChatInterface({ id }: { id: string }) {
     },
     onFinish: () => {
       setMessageReceived(true);
-      setResponseFinished(true);
     },
   });
 
@@ -143,8 +141,6 @@ export function ChatInterface({ id }: { id: string }) {
               isLoading={isLoading}
               submit={submit}
               object={object}
-              responseFinished={responseFinished}
-              setResponseFinished={setResponseFinished}
             />
           )}
         </div>
