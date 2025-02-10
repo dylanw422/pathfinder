@@ -31,6 +31,7 @@ export function AIChat({ thread, messages, user, isLoading }: AIChatProps) {
       {messages &&
         messages.length > 0 &&
         thread.process === "itenerary" &&
+        thread.hotelLink &&
         !isLoading && <ConfirmButton handleContinue={handleContinue} />}
       {thread.review && thread.process === "review" && (
         <ReviewCard
