@@ -32,7 +32,7 @@ const questions = [
     id: "q1",
     text: "What's the purpose of your trip?",
     type: "multiple choice",
-    options: ["Business Trip", "Vacation", "Personal Trip"],
+    options: ["Business Trip", "Vacation", "Honeymoon", "Personal Trip"],
   },
   { id: "q2", text: "When are you traveling?", type: "date range" },
   { id: "q3", text: "How many people are traveling?", type: "number" },
@@ -74,8 +74,8 @@ const questions = [
   },
   {
     id: "q8",
-    text: "Any special interests or hobbies you'd like to explore?",
-    placeholder: "e.g. wine tasting, art museums, hiking, etc.",
+    text: "Anything in particular you'd like to explore?",
+    placeholder: "Roman Colosseum, Eiffel Tower, etc.",
     type: "text",
   },
   {

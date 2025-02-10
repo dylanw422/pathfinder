@@ -54,6 +54,7 @@ export function ChatInterface({ id }: { id: string }) {
       updateReview(thread.id, object),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`thread-${thread.id}`] });
+      console.log("Thread invalidated. Should now be updated.");
     },
   });
 

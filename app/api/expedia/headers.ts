@@ -1,0 +1,80 @@
+export const searchResultHeaders = {
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:134.0) Gecko/20100101 Firefox/134.0",
+  Accept: "*/*",
+  "Accept-Language": "en-US,en;q=0.5",
+  "Accept-Encoding": "gzip, deflate, br, zstd",
+  Referer:
+    "https://www.expedia.com/Hotel-Search?adults=2&children=&d1=2025-04-02&d2=2025-04-09&destination=Hotel%20Artemide%2C%20Rome%2C%20Lazio%2C%20Italy&endDate=2025-04-09&isInvalidatedDate=false&latLong=41.900829%2C12.49363&mapBounds=&pwaDialog=search-location-dialog-destination_form_field-1&regionId&rooms=1&selected=45856&semdtl=&sort=RECOMMENDED&startDate=2025-04-02&theme=&useRewards=false&userIntent=",
+  "content-type": "application/json",
+  "client-info":
+    "shopping-pwa,b91ace1fdd67ba1274a9d5ad6712ade2a25b4fc3,us-west-2",
+  "ctx-view-id": "41ca28b8-c7d5-4a93-8817-e5020087fd09",
+  "x-shopping-product-line": "lodging",
+  "x-product-line": "lodging",
+  "x-parent-brand-id": "expedia",
+  "x-page-id": "page.Hotel-Search,H,20",
+  "x-hcom-origin-id": "page.Hotel-Search,H,20",
+  traceparent: "00-000000000000000003d33d8523b2d812-3308273714bcf522-00",
+  "x-datadog-origin": "rum",
+  "x-datadog-parent-id": "3677232213272622370",
+  "x-datadog-sampling-priority": "0",
+  "x-datadog-trace-id": "275631644238600210",
+  Cookie: process.env.SEARCH_RESULT_COOKIE,
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "same-origin",
+  Priority: "u=4",
+  TE: "trailers",
+};
+
+export const URLHeaders = {
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:134.0) Gecko/20100101 Firefox/134.0",
+  Accept: "*/*",
+  "Accept-Language": "en-US,en;q=0.5",
+  "Accept-Encoding": "gzip, deflate, br, zstd",
+  "content-type": "application/json",
+  "client-info":
+    "shopping-pwa,b91ace1fdd67ba1274a9d5ad6712ade2a25b4fc3,us-west-2",
+  "x-page-id": "page.Hotel-Search,H,20",
+  "x-enable-apq": "true",
+  "x-shopping-product-line": "lodging",
+  traceparent: "00-00000000000000004b81e8412046343c-14a1a00935a957fb-00",
+  "x-datadog-origin": "rum",
+  "x-datadog-parent-id": "1486645313424414715",
+  "x-datadog-sampling-priority": "0",
+  "x-datadog-trace-id": "5440885191252259900",
+  Origin: "https://www.expedia.com",
+  "Sec-GPC": "1",
+  Connection: "keep-alive",
+  Referer:
+    "https://www.expedia.com/Hotel-Search?adults=2&children=&d1=2025-04-02&d2=2025-04-09&destination=Hotel%20Grande%20Bretagne%2C%20a%20Luxury%20Collection%20Hotel%2C%20Athens%2C%20Athens%2C%20Attica%2C%20Greece&endDate=2025-04-09&isInvalidatedDate=false&latLong=37.976036%2C23.735653&mapBounds=&regionId&rooms=1&selected=175929&semdtl=&sort=RECOMMENDED&startDate=2025-04-02&theme=&useRewards=false&userIntent=&pwaDialog",
+  Cookie: process.env.URL_HEADER_COOKIE,
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "same-origin",
+  TE: "trailers",
+};
+
+export const affiliateHeaders = {
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:134.0) Gecko/20100101 Firefox/134.0",
+  Accept: "*/*",
+  "Accept-Language": "en-US,en;q=0.5",
+  "Accept-Encoding": "gzip, deflate, br, zstd",
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${process.env.EXPEDIA_AUTH_TOKEN}`,
+  "x-datadog-origin": "rum",
+  "x-datadog-parent-id": "513616658235754635",
+  "x-datadog-sampling-priority": "1",
+  "x-datadog-trace-id": "513616658235754635",
+  Origin: "https://console.vap.expedia.com",
+  "Sec-GPC": "1",
+  Connection: "keep-alive",
+  Referer: "https://console.vap.expedia.com",
+  "Sec-Fetch-Dest": "empty",
+  "Sec-Fetch-Mode": "cors",
+  "Sec-Fetch-Site": "same-site",
+  TE: "trailers",
+};
