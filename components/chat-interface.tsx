@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { ArrowUp, ChevronsRight } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
@@ -84,23 +84,23 @@ export function ChatInterface({ id }: { id: string }) {
   }, [thread]);
 
   // SCROLL FUNCTIONALITY
-  const scrollToBottom = () => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
-      });
-    }
-  };
+  // const scrollToBottom = () => {
+  //   if (scrollAreaRef.current) {
+  //     scrollAreaRef.current.scrollTo({
+  //       top: scrollAreaRef.current.scrollHeight,
+  //     });
+  //   }
+  // };
 
-  useLayoutEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
-    }
-  }, []);
+  // useLayoutEffect(() => {
+  //   if (scrollAreaRef.current) {
+  //     scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, object, isLoading, thread]);
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [messages, object, isLoading, thread]);
 
   // BLANK RENDER FOR LOADING
   if (!thread || !messages) {
