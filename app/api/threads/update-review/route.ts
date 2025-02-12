@@ -4,51 +4,97 @@ import axios from "axios";
 export async function POST(req: Request) {
   const { threadId, object } = await req.json();
   if (threadId && object) {
-    // ADD REVIEW OBJECT TO DB
-    await updateReview(threadId, object);
+    try {
+      await updateReview(threadId, object);
 
-    // GET HOTEL DETAILS
-    const hotelDetailsRes = await axios.post(
-      "http://localhost:3000/api/expedia/get-name",
-      {
-        searchTerm: object.hotel_name,
+      let hotelDetailsRes, hotelURLRes, affiliateLinkRes;
+
+      try {
+        hotelDetailsRes = await axios.post(
+          "http://localhost:3000/api/expedia/get-name",
+          { searchTerm: object.hotel_name }
+        );
+      } catch (error: unknown) {
+        console.error("Error fetching hotel details:", error);
+        let errorMessage = "Unknown error";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        return Response.json(
+          { msg: "failed", step: "hotelDetails", error: errorMessage },
+          { status: 500 }
+        );
       }
-    );
 
-    const { hotelFullName, hotelId, latitude, longitude } =
-      hotelDetailsRes.data;
+      const { hotelFullName, hotelId, latitude, longitude } =
+        hotelDetailsRes.data;
 
-    // PASS DETAIULS TO GET HOTEL URL
-    const hotelURLRes = await axios.post(
-      "http://localhost:3000/api/expedia/get-link",
-      {
-        regionName: hotelFullName,
-        propertyId: hotelId,
-        latitude: latitude,
-        longitude: longitude,
-        guests: object.guests,
+      try {
+        hotelURLRes = await axios.post(
+          "http://localhost:3000/api/expedia/get-link",
+          {
+            regionName: hotelFullName,
+            propertyId: hotelId,
+            latitude: latitude,
+            longitude: longitude,
+            guests: object.guests,
+          }
+        );
+      } catch (error: unknown) {
+        console.error("Error fetching hotel URL:", error);
+        let errorMessage = "Unknown error";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        return Response.json(
+          { msg: "failed", step: "hotelURL", error: errorMessage },
+          { status: 500 }
+        );
       }
-    );
 
-    const hotelLink = hotelURLRes.data;
+      const hotelLink = hotelURLRes.data;
 
-    // GET AFFILIATE LINK
-    const affiliateLinkRes = await axios.post(
-      "http://localhost:3000/api/expedia/affiliate-link",
-      {
-        url: hotelLink,
+      try {
+        affiliateLinkRes = await axios.post(
+          "http://localhost:3000/api/expedia/affiliate-link",
+          {
+            url: hotelLink,
+          }
+        );
+      } catch (error: unknown) {
+        console.error("Error fetching affiliate link:", error);
+        let errorMessage = "Unknown error";
+        if (error instanceof Error) {
+          errorMessage = error.message;
+        }
+        return Response.json(
+          { msg: "failed", step: "affiliateLink", error: errorMessage },
+          { status: 500 }
+        );
       }
-    );
 
-    const affiliateLink = affiliateLinkRes.data;
+      const affiliateLink = affiliateLinkRes.data;
 
-    // ADD HOTEL LINK TO DB
-    await updateHotelLink(threadId, affiliateLink);
+      await updateHotelLink(threadId, affiliateLink);
 
-    return Response.json({ msg: "success" }, { status: 200 });
+      return Response.json({ msg: "success" }, { status: 200 });
+    } catch (overallError: unknown) {
+      console.error("Overall error in POST function:", overallError);
+      let errorMessage = "Unknown error";
+      if (overallError instanceof Error) {
+        errorMessage = overallError.message;
+      }
+      return Response.json(
+        { msg: "failed", step: "overall", error: errorMessage },
+        { status: 500 }
+      );
+    }
   }
 
-  return Response.json({ msg: "failed" }, { status: 400 });
+  return Response.json(
+    { msg: "failed", step: "initialCheck" },
+    { status: 400 }
+  );
 }
 
 export const maxDuration = 30;
