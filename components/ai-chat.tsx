@@ -8,7 +8,13 @@ import { ConfirmButton } from "./confirm-button";
 import { ReviewCard } from "./review-card";
 import HotelConfirmationModal from "./hotel-modal";
 
-export function AIChat({ thread, messages, user, isLoading }: AIChatProps) {
+export function AIChat({
+  thread,
+  messages,
+  user,
+  isLoading,
+  pendingUpdate,
+}: AIChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
 
@@ -42,7 +48,7 @@ export function AIChat({ thread, messages, user, isLoading }: AIChatProps) {
         thread.process === "itenerary" &&
         thread.hotelLink &&
         !isLoading && <ConfirmButton handleContinue={handleContinue} />}
-      {thread.review && thread.process === "review" && (
+      {thread.review && thread.process === "review" && !pendingUpdate && (
         <ReviewCard
           hotelBooked={thread.hotelBooked}
           object={thread.review}

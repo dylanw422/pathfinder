@@ -34,12 +34,12 @@ export default function Booked() {
     <div>
       <div className="md:text-xl flex items-center text-center text-lg font-bold border-b p-2">
         <ChevronsRight
-          className={`text-sidebar-foreground hover:cursor-pointer hover:bg-sidebar-accent transition rounded-sm p-1  ${
+          className={`text-sidebar-foreground hover:cursor-pointer hover:bg-sidebar-accent transition rounded-sm p-1 mr-2 ${
             state === "expanded" ? "md:hidden block" : ""
           }`}
           onClick={toggleSidebar}
         />
-        <h1 className="absolute left-1/2 -translate-x-1/2 md:relative md:text-center">
+        <h1 className="w-full text-center whitespace-nowrap overflow-hidden overflow-ellipsis">
           Your Booked Trips
         </h1>
       </div>

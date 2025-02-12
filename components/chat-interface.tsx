@@ -78,7 +78,7 @@ export function ChatInterface({ id }: { id: string }) {
           thread.location
         }. Your goal is to provide a detailed, user-friendly, day-by-day itenerary that matches these details: ${JSON.stringify(
           thread.surveyAnswers
-        )}. Include hotel name and what airports I should fly from from and to. I only fly from major airports. Im willing to drive to the nearest major airport. Include best departure time so that I can arrive in my destination in the morning.`,
+        )}. Include hotel name and what airports I should fly from from and to. I only fly from major airports. Im willing to drive to the nearest major airport. Include best departure time so that I can arrive in my destination in the morning. If more than one destination is listed, choose only ONE hotel that is centrally located.`,
       });
     }
   }, [thread]);
@@ -115,12 +115,12 @@ export function ChatInterface({ id }: { id: string }) {
       <main className="flex-1 overflow-hidden flex flex-col relative">
         <div className="md:text-xl flex items-center text-center text-lg font-bold border-b p-2">
           <ChevronsRight
-            className={`text-sidebar-foreground hover:cursor-pointer hover:bg-sidebar-accent transition rounded-sm p-1  ${
+            className={`text-sidebar-foreground hover:cursor-pointer hover:bg-sidebar-accent transition rounded-sm p-1 mr-2 ${
               state === "expanded" ? "md:hidden block" : ""
             }`}
             onClick={toggleSidebar}
           />
-          <h1 className="absolute left-1/2 -translate-x-1/2 md:relative md:text-center">
+          <h1 className="w-full text-center whitespace-nowrap overflow-hidden overflow-ellipsis">
             🌎 {thread.location}
           </h1>
         </div>
@@ -145,6 +145,7 @@ export function ChatInterface({ id }: { id: string }) {
               isLoading={isLoading}
               submit={submit}
               object={object}
+              pendingUpdate={reviewMutation.isPending}
             />
           )}
         </div>
