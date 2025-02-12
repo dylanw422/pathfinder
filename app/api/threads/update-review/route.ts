@@ -50,3 +50,5 @@ export async function POST(req: Request) {
 
   return Response.json({ msg: "failed" }, { status: 400 });
 }
+
+export const maxDuration = 30;
