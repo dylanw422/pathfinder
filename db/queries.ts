@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { usersTable, threadsTable } from "./schema";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, or } from "drizzle-orm";
 import {
   DBUser as User,
   ThreadContent,
@@ -99,4 +99,31 @@ export const updateHotelLink = async (threadId: string, hotelLink: string) => {
       hotelLink: hotelLink,
     })
     .where(eq(threadsTable.id, threadId));
+};
+
+export const updateHotelBooked = async (
+  threadId: string,
+  hotelBooked: boolean
+) => {
+  return await db
+    .update(threadsTable)
+    .set({
+      hotelBooked: hotelBooked,
+    })
+    .where(eq(threadsTable.id, threadId));
+};
+
+export const getBookedTrips = async (id: string) => {
+  return await db
+    .select()
+    .from(threadsTable)
+    .where(
+      and(
+        eq(threadsTable.userId, id),
+        or(
+          eq(threadsTable.hotelBooked, true),
+          eq(threadsTable.flightBooked, true)
+        )
+      )
+    );
 };

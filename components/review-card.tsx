@@ -14,16 +14,20 @@ import Link from "next/link";
 import { UseMutationResult } from "@tanstack/react-query";
 
 export function ReviewCard({
+  hotelBooked,
   object,
   processMutation,
   hotelLink,
+  setIsOpen,
 }: {
+  hotelBooked: boolean;
   object: TripDetails;
   processMutation: UseMutationResult<unknown, Error, string, unknown>;
   hotelLink: string | undefined;
+  setIsOpen: (value: boolean) => void;
 }) {
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <motion.div>
       <Card className="mb-4 mt-4 ml-8 text-sm md:text-base">
         <CardHeader>
           <CardTitle>Trip Summary</CardTitle>
@@ -63,15 +67,17 @@ export function ReviewCard({
         <CardFooter className="flex flex-col items-start space-y-0">
           <p className="font-semibold md:text-lg pb-4">Start booking? 👇</p>
           <div className="flex lg:flex-row flex-col items-center justify-between w-full space-y-2 lg:space-y-0 lg:space-x-2">
-            <Link href={`${hotelLink}`} target="_blank" className="w-full">
-              <Button
-                variant="outline"
-                className="w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
-              >
-                Checkout Hotel <Hotel className="h-5 w-5" />
-              </Button>
-            </Link>
-
+            {!hotelBooked && (
+              <Link href={`${hotelLink}`} target="_blank" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
+                  onClick={() => setIsOpen(true)}
+                >
+                  Checkout Hotel <Hotel className="h-5 w-5" />
+                </Button>
+              </Link>
+            )}
             <Link href={``} target="_blank" className="w-full">
               <Button
                 variant="outline"

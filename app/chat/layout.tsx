@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         data-wpfc-render="false"
       />
       <AppSidebar />
-      <div className="md:w-2/3 w-full border-r">{children}</div>
+      <div className={`w-full border-r`}>{children}</div>
     </motion.div>
   );
 }

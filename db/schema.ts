@@ -1,4 +1,11 @@
-import { pgTable, text, uuid, json, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  uuid,
+  json,
+  timestamp,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
   id: text("id").notNull().primaryKey().unique(),
@@ -19,4 +26,6 @@ export const threadsTable = pgTable("threads", {
   content: json("content").array(),
   hotelLink: text("hotel_link"),
   review: json("review"),
+  hotelBooked: boolean("hotel_booked").default(false),
+  flightBooked: boolean("flight_booked").default(false),
 });

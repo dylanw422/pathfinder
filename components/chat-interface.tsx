@@ -88,6 +88,7 @@ export function ChatInterface({ id }: { id: string }) {
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTo({
         top: scrollAreaRef.current.scrollHeight,
+        behavior: "smooth",
       });
     }
   };
@@ -112,7 +113,7 @@ export function ChatInterface({ id }: { id: string }) {
   return (
     <div className="flex flex-col h-[100dvh] overflow-hidden">
       <main className="flex-1 overflow-hidden flex flex-col relative">
-        <div className="md:text-xl flex items-center text-center text-lg font-bold mb-4 border-b p-2">
+        <div className="md:text-xl flex items-center text-center text-lg font-bold border-b p-2">
           <ChevronsRight
             className={`text-sidebar-foreground hover:cursor-pointer hover:bg-sidebar-accent transition rounded-sm p-1  ${
               state === "expanded" ? "md:hidden block" : ""
@@ -124,7 +125,7 @@ export function ChatInterface({ id }: { id: string }) {
           </h1>
         </div>
         <div
-          className="w-full overflow-y-scroll flex-1"
+          className="w-full overflow-y-scroll flex-1 p-2"
           style={{
             scrollbarWidth: "none",
           }}

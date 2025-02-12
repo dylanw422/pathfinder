@@ -1,13 +1,6 @@
 "use client";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
-import {
-  ChevronsLeft,
-  HashIcon,
-  Home,
-  Plane,
-  Ticket,
-  Trash,
-} from "lucide-react";
+import { ChevronsLeft, Home, Plane, Ticket, Trash } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
 import { useRouter, usePathname } from "next/navigation";
 import { motion } from "framer-motion";
@@ -17,7 +10,9 @@ import { Thread } from "@/types/types";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { Button } from "./ui/button";
 import { useQuery } from "@tanstack/react-query";
-import { getUser, getThreads } from "@/queries/queries";
+import { getUser, getThreads, getBookedTrips } from "@/queries/queries";
+import Link from "next/link";
+import { Badge } from "./ui/badge";
 
 export function AppSidebar() {
   const { toggleSidebar } = useSidebar();
@@ -31,6 +26,11 @@ export function AppSidebar() {
     queryKey: ["threads"],
     queryFn: () => getThreads(user?.id),
     enabled: !!user?.id,
+  });
+  const { data: bookedTrips } = useQuery({
+    queryKey: ["bookedTrips"],
+    queryFn: () => getBookedTrips(user?.id),
+    enabled: !!user,
   });
 
   return (
@@ -46,17 +46,23 @@ export function AppSidebar() {
           />
         </div>
         <div id="main-menu" className="mt-2">
-          <button
-            onClick={() => router.push("/")}
-            className="flex items-center gap-2 text-sm px-4 py-2 w-full rounded-lg hover:bg-sidebar-accent transition duration-200 ease-linear text-primary/70 font-medium"
-          >
-            <Home className="w-4 h-4" />
-            Home
-          </button>
-          <button className="flex items-center gap-2 text-sm px-4 py-2 w-full rounded-lg hover:bg-sidebar-accent transition duration-200 ease-linear text-primary/70 font-medium">
-            <Ticket className="w-4 h-4" />
-            Booked Trips
-          </button>
+          <Link href="/">
+            <button className="flex items-center gap-2 text-sm px-4 py-2 w-full rounded-lg hover:bg-sidebar-accent transition duration-200 ease-linear text-primary/70 font-medium">
+              <Home className="w-4 h-4" />
+              Home
+            </button>
+          </Link>
+          <Link href="/chat/booked">
+            <button className="flex items-center gap-2 text-sm px-4 py-2 w-full rounded-lg hover:bg-sidebar-accent transition duration-200 ease-linear text-primary/70 font-medium">
+              <Ticket className="w-4 h-4" />
+              Booked Trips{" "}
+              <Badge variant="secondary">
+                <span className="text-xs text-primary/50">
+                  {bookedTrips?.length > 0 ? bookedTrips.length : 0}
+                </span>
+              </Badge>
+            </button>
+          </Link>
           <div className="flex flex-col">
             <button className="flex items-center gap-2 text-sm px-4 py-2 w-full rounded-lg hover:bg-sidebar-accent transition duration-200 ease-linear text-primary/70 font-medium">
               <Plane className="w-4 h-4" />
@@ -71,7 +77,7 @@ export function AppSidebar() {
                         onClick={() => {
                           router.push(`/chat/${thread.id}`);
                         }}
-                        className={`flex items-center justify-between gap-2 px-2 w-full text-center text-xs py-1 hover:bg-sidebar-accent transition rounded-md ${
+                        className={`flex items-center justify-between px-2 w-full text-center text-xs py-1 hover:bg-sidebar-accent transition rounded-md ${
                           thread.id === pathname.split("/")[2]
                             ? "text-blue-500 font-semibold"
                             : "text-primary/70"
@@ -79,9 +85,8 @@ export function AppSidebar() {
                         onMouseEnter={() => setHoveredIndex(index)}
                         onMouseLeave={() => setHoveredIndex(null)}
                       >
-                        <div className="flex items-center gap-2">
-                          <HashIcon className="w-3 h-3" />
-                          {thread.location}
+                        <div className="flex items-center truncate">
+                          <span className="truncate">{thread.location}</span>
                         </div>
 
                         {hoveredIndex === index && (

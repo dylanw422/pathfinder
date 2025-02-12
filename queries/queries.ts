@@ -80,3 +80,20 @@ export const getHotel = async (
   });
   return res.data;
 };
+
+export const updateHotelBooked = async (
+  threadId: string,
+  hotelBooked: boolean
+) => {
+  const res = await axios.post("/api/threads/update-hotel-booked", {
+    threadId,
+    hotelBooked,
+  });
+
+  return res.data;
+};
+
+export const getBookedTrips = async (id: string | undefined) => {
+  const res = await axios.post("/api/threads/get-booked-trips", { id });
+  return res.data;
+};

@@ -23,6 +23,8 @@ export interface Thread {
   content?: JSON[];
   hotelLink?: string;
   review: TripDetails | undefined;
+  hotelBooked: boolean;
+  flightBooked: boolean;
 }
 
 export interface ThreadContent {
