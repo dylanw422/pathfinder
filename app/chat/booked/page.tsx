@@ -6,6 +6,7 @@ import { getBookedTrips, getUser } from "@/queries/queries";
 import { Thread } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
 import {
+  ArrowLeftRight,
   Calendar,
   Check,
   ChevronsRight,
@@ -84,12 +85,12 @@ export default function Booked() {
                 <Badge
                   variant="outline"
                   className={`ml-2 text-xs whitespace-nowrap px-2 py-1 w-[90px] flex items-center justify-center ${
-                    trip.hotelBooked ? "bg-green-400" : "bg-red-500"
+                    trip.hotelBooked ? "bg-green-400" : "bg-red-300"
                   }`}
                 >
                   <span
                     className={`${
-                      trip.hotelBooked ? "text-green-600" : "text-red-600"
+                      trip.hotelBooked ? "text-green-600" : "text-red-500"
                     }`}
                   >
                     {trip.hotelBooked ? (
@@ -103,7 +104,11 @@ export default function Booked() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <Plane className="mr-2 h-4 w-4 text-black" />
-                  <span>Flight</span>
+                  <span className="whitespace-nowrap flex items-center gap-1">
+                    {trip.review?.from_airport?.match(/\((.*?)\)/)?.[1]}{" "}
+                    <ArrowLeftRight className="w-3 h-3" />{" "}
+                    {trip.review?.to_airport?.match(/\((.*?)\)/)?.[1]}
+                  </span>
                 </div>
                 <Badge
                   variant="outline"
@@ -113,7 +118,7 @@ export default function Booked() {
                 >
                   <span
                     className={`${
-                      trip.flightBooked ? "text-green-600" : "text-red-600"
+                      trip.flightBooked ? "text-green-600" : "text-red-500"
                     }`}
                   >
                     {trip.flightBooked ? (
