@@ -109,9 +109,9 @@ export default function Booked() {
                   <div className="flex items-center">
                     <Plane className="mr-2 h-4 w-4 text-black" />
                     <span className="whitespace-nowrap flex items-center gap-1">
-                      {trip.review?.from_airport?.match(/$$(.*?)$$/)?.[1]}{" "}
+                      {trip.review?.from_airport?.match(/\((.*?)\)/)?.[1]}{" "}
                       <ArrowLeftRight className="w-3 h-3" />{" "}
-                      {trip.review?.to_airport?.match(/$$(.*?)$$/)?.[1]}
+                      {trip.review?.to_airport?.match(/\((.*?)\)/)?.[1]}
                     </span>
                   </div>
                   <Badge
