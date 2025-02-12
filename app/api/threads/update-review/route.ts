@@ -14,6 +14,7 @@ export async function POST(req: Request) {
 
       let hotelDetailsRes, hotelURLRes, affiliateLinkRes;
 
+      // RETURN HOTEL DETAILS
       try {
         hotelDetailsRes = await axios.post(
           `${API_BASE_URL}/api/expedia/get-name`,
@@ -34,6 +35,7 @@ export async function POST(req: Request) {
       const { hotelFullName, hotelId, latitude, longitude } =
         hotelDetailsRes.data;
 
+      // PLUG HOTEL DETAILS TO GET URL
       try {
         hotelURLRes = await axios.post(`${API_BASE_URL}/api/expedia/get-link`, {
           regionName: hotelFullName,
@@ -56,6 +58,7 @@ export async function POST(req: Request) {
 
       const hotelLink = hotelURLRes.data;
 
+      // PLUG HOTEL LINK TO GET AFFILIATE LINK
       try {
         affiliateLinkRes = await axios.post(
           `${API_BASE_URL}/api/expedia/affiliate-link`,
