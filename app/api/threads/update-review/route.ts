@@ -1,6 +1,11 @@
 import { updateHotelLink, updateReview } from "@/db/queries";
 import axios from "axios";
 
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://www.pthfindr.com"
+    : "http://localhost:3000";
+
 export async function POST(req: Request) {
   const { threadId, object } = await req.json();
   if (threadId && object) {
@@ -11,7 +16,7 @@ export async function POST(req: Request) {
 
       try {
         hotelDetailsRes = await axios.post(
-          "http://localhost:3000/api/expedia/get-name",
+          `${API_BASE_URL}/api/expedia/get-name`,
           { searchTerm: object.hotel_name }
         );
       } catch (error: unknown) {
@@ -30,16 +35,13 @@ export async function POST(req: Request) {
         hotelDetailsRes.data;
 
       try {
-        hotelURLRes = await axios.post(
-          "http://localhost:3000/api/expedia/get-link",
-          {
-            regionName: hotelFullName,
-            propertyId: hotelId,
-            latitude: latitude,
-            longitude: longitude,
-            guests: object.guests,
-          }
-        );
+        hotelURLRes = await axios.post(`${API_BASE_URL}/api/expedia/get-link`, {
+          regionName: hotelFullName,
+          propertyId: hotelId,
+          latitude: latitude,
+          longitude: longitude,
+          guests: object.guests,
+        });
       } catch (error: unknown) {
         console.error("Error fetching hotel URL:", error);
         let errorMessage = "Unknown error";
@@ -56,7 +58,7 @@ export async function POST(req: Request) {
 
       try {
         affiliateLinkRes = await axios.post(
-          "http://localhost:3000/api/expedia/affiliate-link",
+          `${API_BASE_URL}/api/expedia/affiliate-link`,
           {
             url: hotelLink,
           }
