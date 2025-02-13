@@ -10,24 +10,14 @@ export default function Home() {
       <div
         className="w-full h-auto min-h-[80dvh] rounded-t-xl relative overflow-hidden"
         style={{
-          backgroundImage: `
-            linear-gradient(to bottom, 
-              rgba(255, 255, 255, 0) 0%,
-              rgba(255, 255, 255, 0) 60%,
-              rgba(255, 255, 255, 0.1) 70%,
-              rgba(255, 255, 255, 0.3) 80%,
-              rgba(255, 255, 255, 0.6) 90%,
-              rgba(255, 255, 255, 0.9) 95%,
-              rgba(255, 255, 255, 1) 100%
-            ),
-            url(/home4.webp)
-          `,
+          backgroundImage: 'url("/home4.webp")',
           backgroundSize: "cover",
           backgroundPosition: "center top",
         }}
       >
         <HomeNav />
         <HeroSection />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1/3 bg-gradient-to-t from-white"></div>
       </div>
       <Stats />
       <FeatureScroll />
