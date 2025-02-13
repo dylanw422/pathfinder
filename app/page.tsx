@@ -1,5 +1,7 @@
+import { FAQ } from "@/components/faq";
 import { FeatureCard } from "@/components/feature-card";
 import { FeatureScroll } from "@/components/feature-scroll";
+import { Footer } from "@/components/footer";
 import { HeroSection } from "@/components/hero-section";
 import { HomeNav } from "@/components/home-nav";
 import { Stats } from "@/components/stats";
@@ -22,6 +24,8 @@ export default function Home() {
       <Stats />
       <FeatureScroll />
       <FeatureCard />
+      <FAQ />
+      <Footer />
     </div>
   );
 }

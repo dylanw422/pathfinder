@@ -6,7 +6,7 @@ import { motion, useInView, useSpring, useTransform } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 
 const stats = [
-  { value: 1200000, label: "Hotels" },
+  { value: 920000, label: "Hotels" },
   { value: 70, label: "Countries" },
   { value: 50000, label: "Cities" },
   { value: 90, label: "Faster Booking" },

@@ -40,7 +40,7 @@ export function HomeNav() {
         </h1>
         <div
           id="menu"
-          className="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-t border-t-white/20 shadow-md rounded-full bg-white/10 backdrop-blur-md px-8 flex items-center gap-x-8"
+          className="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 border-t border-t-white/20 shadow-md rounded-full bg-white/10 backdrop-blur-md px-8 flex items-center gap-x-4 md:gap-x-8 lg:gap-x-12 xl:gap-x-16"
         >
           <Link
             href="#about"
@@ -53,12 +53,6 @@ export function HomeNav() {
             className="rounded-full text-xs py-3 text-white/50 hover:text-secondary transition"
           >
             Services
-          </Link>
-          <Link
-            href="#tour"
-            className="rounded-full text-xs py-3 text-white/50 hover:text-secondary transition"
-          >
-            Tour
           </Link>
           <Link
             href="#how-it-works"
