@@ -8,13 +8,11 @@ import { useQuery } from "@tanstack/react-query";
 import {
   ArrowLeftRight,
   Calendar,
-  Check,
   ChevronsRight,
   Hotel,
   MapPin,
   Plane,
   Users,
-  X,
 } from "lucide-react";
 
 export default function Booked() {
@@ -94,14 +92,10 @@ export default function Booked() {
                   >
                     <span
                       className={`${
-                        trip.hotelBooked ? "text-green-600" : "text-red-500"
+                        trip.hotelBooked ? "text-green-800" : "text-red-500"
                       }`}
                     >
-                      {trip.hotelBooked ? (
-                        <Check className="w-4 h-4" />
-                      ) : (
-                        <X className="w-4 h-4" />
-                      )}
+                      {trip.hotelBooked ? "Booked" : "Not Booked"}
                     </span>
                   </Badge>
                 </div>
@@ -122,14 +116,10 @@ export default function Booked() {
                   >
                     <span
                       className={`${
-                        trip.flightBooked ? "text-green-600" : "text-red-500"
+                        trip.flightBooked ? "text-green-800" : "text-red-800"
                       }`}
                     >
-                      {trip.flightBooked ? (
-                        <Check className="w-4 h-4" />
-                      ) : (
-                        <X className="w-4 h-4" />
-                      )}
+                      {trip.flightBooked ? "Booked" : "Not Booked"}
                     </span>
                   </Badge>
                 </div>

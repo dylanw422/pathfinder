@@ -37,8 +37,8 @@ export function Footer() {
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 md:px-10 w-full">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-2">
-          <div className="aspect-square border w-8 flex items-center justify-center rounded-sm bg-black/5">
-            <h1 className="font-bold italic text-2xl text-blue-500 ">P</h1>
+          <div className="aspect-square w-8 flex items-center justify-center rounded-sm bg-blue-500">
+            <h1 className="font-bold italic text-2xl text-white">P</h1>
           </div>
           <h2 className="text-lg font-bold text-neutral-900 dark:text-white">
             Pathfinder
