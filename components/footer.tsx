@@ -70,7 +70,10 @@ export function Footer() {
           ))}
         </ul>
         <div className="flex items-center justify-between text-sm font-medium tracking-tight text-neutral-500 dark:text-neutral-400">
-          <p>Copyright © 2025 Pathfinder. All rights reserved.</p>
+          <p>
+            Copyright © {new Date().getFullYear()} Pathfinder. All rights
+            reserved.
+          </p>
         </div>
       </div>
     </footer>
