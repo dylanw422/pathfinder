@@ -81,9 +81,8 @@ export function ReviewCard({
             <Link href={``} target="_blank" className="w-full">
               <Button
                 variant="outline"
-                className="w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
+                className="relative w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
               >
-                {" "}
                 Checkout Flight <Plane className="h-5 w-5 rotate-45" />
               </Button>
             </Link>

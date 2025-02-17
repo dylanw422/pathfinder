@@ -1,3 +1,4 @@
+import { Comparison } from "@/components/comparison";
 import { FAQ } from "@/components/faq";
 import { FeatureCard } from "@/components/feature-card";
 import { FeatureScroll } from "@/components/feature-scroll";
@@ -24,6 +25,7 @@ export default function Home() {
       <Stats />
       <FeatureScroll />
       <FeatureCard />
+      <Comparison />
       <FAQ />
       <Footer />
     </div>

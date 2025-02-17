@@ -36,7 +36,7 @@ const faqs = [
 export function FAQ() {
   return (
     <section id="faq" className="w-full text-primary">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4">
         <div className="text-center space-y-4 py-6 mx-auto">
           <h2 className="text-[14px] text-primary font-mono font-medium tracking-tight">
             FAQ

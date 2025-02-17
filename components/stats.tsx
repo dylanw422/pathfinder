@@ -23,7 +23,7 @@ export function Stats() {
           <h2 className="text-[14px] text-primary font-mono font-medium tracking-tight">
             STATS
           </h2>
-          <h4 className="text-[42px] font-medium mb-2 text-balance text-primary/50 max-w-3xl mx-auto tracking-tighter">
+          <h4 className="text-[42px] font-medium mb-2 text-balance text-primary max-w-3xl mx-auto tracking-tighter">
             See the impact we&apos;re making in the world of travel.
           </h4>
         </div>

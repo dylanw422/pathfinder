@@ -26,15 +26,11 @@ type Link = {
   url: string;
 };
 
-const links: Link[] = [
-  { text: "About", url: "#" },
-  { text: "Disclaimer", url: "/disclaimer" },
-  { text: "Contact", url: "#" },
-];
+const links: Link[] = [{ text: "Disclaimer", url: "/disclaimer" }];
 
 export function Footer() {
   return (
-    <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 md:px-10 w-full">
+    <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 md:px-10 w-full mt-24">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-2">
           <div className="aspect-square w-8 flex items-center justify-center rounded-sm bg-blue-500">
