@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, X } from "lucide-react";
 
 const pricingOptions = [
   {
@@ -14,6 +14,7 @@ const pricingOptions = [
       "Limited knowledge and expertise",
       "Potential pricing markups",
       "Hidden costs",
+      "Managed bookings",
     ],
   },
   {
@@ -27,6 +28,7 @@ const pricingOptions = [
       "Personalized recommendations",
       "24/7 availability",
       "Completely free",
+      "Handle bookings directly",
     ],
   },
 ];
@@ -64,7 +66,11 @@ export function Comparison() {
                 <ul className="mt-4 space-y-2">
                   {option.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center">
-                      <Check className="mr-2 h-4 w-4 text-primary" />
+                      {option.name === "Pathfinder" ? (
+                        <Check className="mr-2 h-4 w-4 text-green-500" />
+                      ) : (
+                        <X className="mr-2 h-4 w-4 text-red-500" />
+                      )}
                       <span>{feature}</span>
                     </li>
                   ))}

@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Hotel, Plane, X } from "lucide-react";
+import { Hotel, X } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -78,14 +78,14 @@ export function ReviewCard({
                 </Button>
               </Link>
             )}
-            <Link href={``} target="_blank" className="w-full">
+            {/* <Link href={``} target="_blank" className="w-full">
               <Button
                 variant="outline"
                 className="relative w-full md:h-12 h-10 rounded-md bg-green-100 text-green-600 hover:text-green-700 hover:bg-green-200 md:text-sm text-xs"
               >
                 Checkout Flight <Plane className="h-5 w-5 rotate-45" />
               </Button>
-            </Link>
+            </Link> */}
             <Button
               variant="outline"
               className="w-full md:h-12 h-10 rounded-md text-red-500 hover:text-red-600 bg-red-100 hover:bg-red-200 md:text-sm text-xs"
